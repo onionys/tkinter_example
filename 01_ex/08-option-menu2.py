@@ -8,6 +8,7 @@ from time import sleep
 
 
 class seg_head:
+
     def __init__(self,root):
         self.frame = root
         self.prog_label = tk.Label(master=self.frame, text = " Prog# " )
@@ -102,12 +103,10 @@ class seg_line:
         self.seg_target_pos_entry.grid(row=_row,column=9)
 
 
-    def load_data(self):
-        print "load data from eur2404"
-        print "load data from program file"
 
 
 class seg_editor:
+
     def __init__(self,prog):
         self.root = tk.Tk()
         self.seg_h = seg_head(self.root)
@@ -119,6 +118,26 @@ class seg_editor:
         self.prog_var.set("%d" % self.prog)
         self.prog_entry = tk.Entry(self.root, textvariable=self.prog_var)
         self.prog_entry.grid(row=17,column=0)
+
+    def load_data(self):
+        eur_file = "/home/pi/code/savedata/eur_load_data"
+        pro_file = "/home/pi/code/savedata/program.data"
+        eur_data = []
+        pro_data = []
+        with open(eur_file) as f:
+            for line in f:
+                msg = line.split()
+                eur_data.append(msg)
+
+        with open(pro_file) as f:
+            for line in f:
+                msg = line.split()
+                pro_data.append(msg)
+
+
+
+
+
 
 if __name__ == "__main__":
     seditor = seg_editor(10)
