@@ -183,8 +183,10 @@ class seg_line:
 class seg_editor:
 
     def __init__(self,prog):
+
         if not prog in range(21):
-            prog = 0
+            prog = 1
+
         self.root = tk.Tk()
         self.seg_h = seg_head(self.root)
         self.segs = []
@@ -196,27 +198,37 @@ class seg_editor:
         self.prog_entry = tk.Entry(self.root, textvariable=self.prog_var)
         self.prog_entry.grid(row=17,column=0)
 
-    def load_data(self):
-        eur_file = "/home/pi/code/savedata/eur_load_data"
-        pro_file = "/home/pi/code/savedata/program.data"
-        eur_data = []
-        pro_data = []
-        with open(eur_file) as f:
-            for line in f:
-                msg = line.split()
-                eur_data.append(msg)
+    def load_data(self, eur_data, pro_data):
+        _pdata_= []
+        for i in [j for j in pro_data if int(j[0]) == self.prog]:
+            _pdata_.append(i)
 
-        with open(pro_file) as f:
-            for line in f:
-                msg = line.split()
-                pro_data.append(msg)
-
+        for i in range(len(eur_data)):
+            _p = eur_data[i][0]
+            _s = eur_data[i][1]
+            _st = eur_data[i][2]
+            _tsp = eur_data[i][3]
+            _eur = eur_data[i][4]
+            _calp = eur_data[i][5]
         
-        print ""
-
-
 
 
 if __name__ == "__main__":
+    eur_file = "/home/pi/code/savedata/eur_load_data"
+    pro_file = "/home/pi/code/savedata/program.data"
+    eur_data = []
+    pro_data = []
+    with open(eur_file) as f:
+        for line in f:
+            msg = line.strip().split(',')
+            eur_data.append(msg)
+
+    with open(pro_file) as f:
+        for line in f:
+            msg = line.strip().split(',')
+            pro_data.append(msg)
+
+    print pro_data
     seditor = seg_editor(11)
+    seditor.load_data(eur_data,pro_data)
     seditor.root.mainloop()
